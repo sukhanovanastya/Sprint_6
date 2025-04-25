@@ -3,6 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .base_page import BasePage
 
+
 class OrderPage(BasePage):
     # Локаторы для формы заказа
     FIRST_NAME_INPUT = (By.XPATH, "//input[@placeholder='* Имя']")
@@ -45,6 +46,8 @@ class OrderPage(BasePage):
         )
         if len(stations) > index:
             stations[index].click()
+        else:
+            raise IndexError("Станция метро с указанным индексом не найдена.")
 
     def select_delivery_date(self):
         """Выбор даты доставки из календаря."""
@@ -66,6 +69,7 @@ class OrderPage(BasePage):
     def select_scooter_color(self):
         """Выбор цвета самоката."""
         self.find_element(self.BLACK_COLOR_CHECKBOX).click()
+
     def fill_courier_comment(self, comment):
         """Заполнение комментария для курьера."""
         self.find_element(self.COMMENT_INPUT).send_keys(comment)

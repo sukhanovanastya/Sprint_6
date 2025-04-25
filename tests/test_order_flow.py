@@ -10,19 +10,20 @@ ORDER_DATA = {
     "address": "Москва, ул. Пушкина, д. 1",
     "phone": "89991234567"
 }
+
 @allure.feature("Order Flow")
 @allure.story("Create new order")
 class TestOrderFlow:
 
+    @pytest.fixture(scope="function", autouse=True)
     def setup_method(self):
         """Инициализация драйвера перед каждым тестом."""
         self.driver = webdriver.Firefox()
-
-    def teardown_method(self):
-        """Закрытие драйвера после каждого теста."""
+        yield
         self.driver.quit()
 
-    def _test_order_flow(self):
+    @allure.title("Тест на оформление нового заказа")
+    def test_order_flow(self):
         """Основной метод тестирования потока оформления заказа."""
         main_page = MainPage(self.driver)
         order_page = OrderPage(self.driver)
@@ -61,7 +62,3 @@ class TestOrderFlow:
 
         with allure.step("Check success modal is displayed"):
             assert order_page.is_success_modal_displayed(), "Success modal is not displayed"
-
-    def test_order_flow(self):
-        """Тестовый метод, который запускает поток оформления заказа."""
-        self._test_order_flow()

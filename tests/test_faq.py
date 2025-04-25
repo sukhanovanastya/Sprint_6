@@ -12,11 +12,14 @@ FAQ_DATA = [
     (6, "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."),
     (7, "Да, обязательно. Всем самокатов! И Москве, и Московской области.")
 ]
+
 @pytest.mark.usefixtures("setup")
 class TestFAQ:
+
     @allure.feature("FAQ Section")
     @allure.story("Check FAQ answers")
     @pytest.mark.parametrize("index,expected_text", FAQ_DATA)
+    @allure.title("Тест на проверку ответов в разделе FAQ")
     def test_faq_answer(self, index, expected_text):
         main_page = MainPage(self.driver)
 
@@ -30,7 +33,6 @@ class TestFAQ:
             main_page.click_faq_question(index)
 
         with allure.step("Check answer text"):
-            # Ожидаем некоторое время для открытия выпадающего списка
             main_page.wait_for_faq_answer_to_appear(index)
             actual_text = main_page.get_faq_answer_text(index)
             assert actual_text == expected_text, \
