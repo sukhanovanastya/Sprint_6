@@ -1,16 +1,5 @@
-import pytest
 import allure
-from selenium import webdriver
 from pages.main_page import MainPage
-
-@pytest.fixture(scope="function")
-def driver():
-    """Фикстура для инициализации и закрытия драйвера."""
-    driver = webdriver.Firefox()
-    yield driver
-    driver.quit()
-
-
 @allure.feature("Main Page Navigation")
 @allure.story("Click on Scooter logo")
 class TestMainPageNavigation:

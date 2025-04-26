@@ -1,6 +1,5 @@
 import pytest
 import allure
-from selenium import webdriver
 from pages.main_page import MainPage
 from pages.order_page import OrderPage
 
@@ -11,16 +10,10 @@ ORDER_DATA = {
     "phone": "89991234567"
 }
 
+@pytest.mark.usefixtures("setup")
 @allure.feature("Order Flow")
 @allure.story("Create new order")
 class TestOrderFlow:
-
-    @pytest.fixture(scope="function", autouse=True)
-    def setup_method(self):
-        """Инициализация драйвера перед каждым тестом."""
-        self.driver = webdriver.Firefox()
-        yield
-        self.driver.quit()
 
     @allure.title("Тест на оформление нового заказа")
     def test_order_flow(self):
